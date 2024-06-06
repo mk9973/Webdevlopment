@@ -11,7 +11,7 @@ server.use(express.static('public'));
 //middleware for parse form data() --> it take the data and parse it and put it inside the body
 server.use(express.urlencoded({extended : true}));
 
-//setup view engine setting (first install) --> 'npm i ejs'
+//setup view engine setting (first install) --> 'npm i ejs '
 server.set('view engine', 'ejs');
 //here we have to only mention the path of folder which contained 'ejs' file not file
 //path of our views
