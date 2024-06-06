@@ -5,8 +5,9 @@ import ProductController from './src/controller/product.controller.js'
 import path from 'path'
 import ejsLayouts from 'express-ejs-layouts'
 import validationMiddleware from './src/middlewares/validation.middleware.js' 
+import  {uploadFile}  from './src/middlewares/file.upload.middleware.js'
 const server=express();
-
+//it makes the public folder directly usable at any where
 server.use(express.static('public'));
 //middleware for parse form data() --> it take the data and parse it and put it inside the body
 server.use(express.urlencoded({extended : true}));
@@ -36,12 +37,13 @@ server.get('/update-product/:id',productController.getUpdateProductView);
 server.post('/delete-product/:id',productController.deleteProduct);
 
 //when path is default then it will call productController.postAddProduct method
-server.post('/',validationMiddleware,(productController.postAddProduct));
+//first upload upload then validate otherwise it shows error
+server.post('/',uploadFile.single('imageUrl'),validationMiddleware,(productController.postAddProduct));
 
 //when path is '/update-product' then it will call productController.postUpdateProduct method
 server.post('/update-product',(productController.postUpdateProduct));
 
 server.use(express.static('src/views'));
 
-server.listen(3500);
+server.listen(3700);
 console.log('Server is listening on port 3500');

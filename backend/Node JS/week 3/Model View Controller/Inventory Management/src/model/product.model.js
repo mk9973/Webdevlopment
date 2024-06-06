@@ -27,18 +27,31 @@ export default class ProductModel{
     }
 
     //here add new product
-    static add(productObj)
+    //it is for url manually input
+    // static add(productObj)
+    // {
+    //   let newProduct= new ProductModel(
+    //     products.length+1,
+    //     productObj.name,
+    //     productObj.desc,
+    //     productObj.price,
+    //     productObj.imageUrl,
+    //   )
+    //   products.push(newProduct);
+    // }
+
+    //uploading the images
+    static add(name,desc,price,imageUrl)
     {
       let newProduct= new ProductModel(
         products.length+1,
-        productObj.name,
-        productObj.desc,
-        productObj.price,
-        productObj.imageUrl,
-      )
+        name,
+        desc,
+        price,
+        imageUrl
+      );
       products.push(newProduct);
     }
-
     static getById(id)
     {
       return products.find((p)=>p.id==id);

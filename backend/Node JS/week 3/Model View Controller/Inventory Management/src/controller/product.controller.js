@@ -2,7 +2,7 @@ import path from 'path';
 import ProductModel from '../model/product.model.js'
 
 
-export default class ProductController
+class ProductController
 {
     getProducts(req,res,next)
     { 
@@ -20,46 +20,62 @@ export default class ProductController
         res.render("new-product",{errorMessage:null});
     }
 
-    postAddProduct(req,res,next)
-    {
-        //this validate code seperated by middleware in different file for better performance
-        //validate data
-    //   const {name, price,imageUrl}=req.body;
+    
+    //this is for manually input the url
+    // postAddProduct(req,res,next)
+    // {
+    //     //this validate code seperated by middleware in different file for better performance
+    //     //validate data
+    // //   const {name, price,imageUrl}=req.body;
 
-    //   let errors=[];
-    //   // if name is undefined or name is empty
-    //   if(!name || name.trim()=='')
-    //   {
-    //       errors.push('Name is required');
-    //   }
+    // //   let errors=[];
+    // //   // if name is undefined or name is empty
+    // //   if(!name || name.trim()=='')
+    // //   {
+    // //       errors.push('Name is required');
+    // //   }
 
-    //   //if price is undefined or not less than 1
-    //   if(!price || parseFloat(price)<1)
-    //   {
-    //       errors.push("Price must be a positive value");
-    //   }
+    // //   //if price is undefined or not less than 1
+    // //   if(!price || parseFloat(price)<1)
+    // //   {
+    // //       errors.push("Price must be a positive value");
+    // //   }
 
-    //   // if url not in url format then it throw error
-    //   try{
-    //       const validUrl=new URL(imageUrl);
-    //   }catch(err){
-    //       errors.push("URL is invalid");
-    //   }
+    // //   // if url not in url format then it throw error
+    // //   try{
+    // //       const validUrl=new URL(imageUrl);
+    // //   }catch(err){
+    // //       errors.push("URL is invalid");
+    // //   }
 
-    //   //agar ek se bhi jyada error hua to it will pass the first error to 'new-product'
-    //   if(errors.length>0)
-    //   {
-    //       return res.render('new-product',{
-    //           errorMessage: errors[0],
-    //       });
-    //   }
+    // //   //agar ek se bhi jyada error hua to it will pass the first error to 'new-product'
+    // //   if(errors.length>0)
+    // //   {
+    // //       return res.render('new-product',{
+    // //           errorMessage: errors[0],
+    // //       });
+    // //   }
       
-        //access data from form
-        ProductModel.add(req.body);
-        var products=ProductModel.get();
-        return res.render("products",{products});
-    }
+    //     //access data from form
+    //     ProductModel.add(req.body);
+    //     var products=ProductModel.get();
+    //     return res.render("products",{products});
+    // }
+    
 
+    //this is for upload the image file
+    postAddProduct(req,res,next)
+     {
+       // access data from form
+       const {name,desc,price}=req.body;
+
+       const imageUrl = 'images/' + req.file.filename;
+        ProductModel.add(name,desc,price,imageUrl);
+        var products=ProductModel.get();
+         res.render("products",{products});
+        
+     }
+    
     getUpdateProductView(req,res,next)
     {
         //1. if product exist then return product view
@@ -82,7 +98,7 @@ export default class ProductController
     {
         ProductModel.update(req.body);
         var products=ProductModel.get();
-        return res.render("products",{products});
+         res.render("products",{products});
     }
 
     //delete the existing product
@@ -99,3 +115,4 @@ export default class ProductController
         res.render("products",{products});
     }
 }
+export default ProductController;
