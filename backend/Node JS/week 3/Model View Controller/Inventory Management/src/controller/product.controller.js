@@ -9,7 +9,7 @@ class ProductController
         //here get() is static method in Product Model thats we can't intantiated, direct use it
         var products=ProductModel.get();
 
-        res.render("products",{products: products});
+        res.render("products",{products,userEmail: req.seession.userEmail});
         // normally path.resolve() tells the currcnt directory path but here it tells the index.js path
         //bacuse it basicaaly tells us the path of current executing directory and you are running or excuting the application from index.js 
         //return res.sendFile(path.join(path.resolve(),'src','view','products.html'));
@@ -17,7 +17,7 @@ class ProductController
 
     getAddProduct(req,res,next)
     {
-        res.render("new-product",{errorMessage:null});
+        res.render("new-product",{errorMessage:null,userEmail: req.seession.userEmail});
     }
 
     
@@ -72,7 +72,7 @@ class ProductController
        const imageUrl = 'images/' + req.file.filename;
         ProductModel.add(name,desc,price,imageUrl);
         var products=ProductModel.get();
-         res.render("products",{products});
+         res.render("products",{products,userEmail: req.seession.userEmail});
         
      }
     
@@ -84,7 +84,7 @@ class ProductController
         const productFound=ProductModel.getById(id);
         if(productFound)
         {
-            res.render('update-product',{product:productFound, errorMessage:null});
+            res.render('update-product',{product:productFound, errorMessage:null,userEmail: req.seession.userEmail});
         }
         //2. else return errors.
         else
