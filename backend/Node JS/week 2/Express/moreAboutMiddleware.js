@@ -17,7 +17,7 @@ function secondMiddleware(req,res,next)
 
 //handling the array of middleware
 // '/' --> default request  (it will run when)-->http://localhost:3200/
-// '/send' --> send request   (it will run when)-->http://localhost:3200/send  otherwise it will give 'Cannot GET /'
+// '/send' --> send request   (it will run when)-->http://localhost:3200/send  otherwise it will give 'Cannot GET /' error
 // so for any request we can handdle by using 'globalMiddleware'
 //this is going to be execute for all request
 function globalMiddleware(req,res,next)

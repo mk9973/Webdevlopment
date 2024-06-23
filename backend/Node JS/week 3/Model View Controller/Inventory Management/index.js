@@ -9,11 +9,17 @@ import validationMiddleware from './src/middlewares/validation.middleware.js'
 import  {uploadFile}  from './src/middlewares/file.upload.middleware.js'
 import session from 'express-session'
 import { auth } from './src/middlewares/auth.middleware.js'
+import cookieParser from 'cookie-parser'
+import { setLastVisit } from './src/middlewares/lastVisit.middleware.js'
+
 const server=express();
 //it makes the public folder directly usable at any where
 server.use(express.static('public'));
 
-// session install ->> 'npm i express-session' and here i implement
+// cookie parser install ->> 'npm i cookie-parser' and here it configure
+server.use(cookieParser());
+//server.use(setLastVisit);
+// session install ->> 'npm i express-session' and here i configure
 server.use(
     session(
         {
@@ -46,7 +52,9 @@ const usersController =new UserController();
 
 
 //when path is default then it will call productController.getProducts method
-server.get('/',auth,(productController.getProducts));
+// upar me jo configure hai cookie , upar se remove kare 'setLastVisit' ko aur yaha add kar de to logout karne ke baad cookie delete ho jayega
+//but suru me jb login karenge to lastvisit show ni hoga jb dubara login karenge tb show hoga
+server.get('/',auth,setLastVisit,(productController.getProducts));
 
 //when path is '/new' then it will call productController.getAddForm method
 server.get('/new',auth,(productController.getAddProduct));

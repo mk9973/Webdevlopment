@@ -4,7 +4,7 @@
 const arithmeticModule = require("./arithmetic");
 
 // we can also check that import of a module is working or not you can add 'console.log('yes')' in
-//arithmetic.j file then if we run result.js file then 'yes' will print in terminal
+//arithmetic.js file then if we run result.js file then 'yes' will print in terminal
 // but if we use two times import module then only 1 time 'yes' will be printed because
 // when 'arithmeticModule1' imported the arithmetic.js file at that time file saved in caches
 // and if 'arithmeticModule2' try to re import the arithmetic.js file then it uses the caches saved file from previous imported file

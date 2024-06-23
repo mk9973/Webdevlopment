@@ -21,7 +21,7 @@ server.get('/',
 
 //it will execute first middleware and then exit, it will not execute the second middleware
 //(req, res) => {
-//    send.log('first middleware hit');
+//    return send.log('first middleware hit');
 //},
 
 //it will execute first middle ware and waiting.....not executed the second middle ware

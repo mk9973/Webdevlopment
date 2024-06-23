@@ -13,7 +13,7 @@ const server = http.createServer((req, res) => {
       body += chunk.toString();
     });
 
-    //jab pura data received ho jayega tab 're.on' execute hoga
+    //jab pura data received ho jayega tab 'req.on' execute hoga
     req.on('end', () => {
       console.log(body);
       res.end('Data is received');

@@ -32,7 +32,7 @@ export default class UserController{
         req.session.userEmail=email;
         console.log(email);
         var products=ProductModel.get();
-        res.render("products",{products,email});
+        res.render("products",{products,userEmail: req.session.userEmail});
     }
     logout(req,res)
     {
@@ -47,7 +47,7 @@ export default class UserController{
             {
                 res.redirect('/login');
             }
-        }
-    )
+        });
+        res.clearCookie('lastVisit');
     }
 }

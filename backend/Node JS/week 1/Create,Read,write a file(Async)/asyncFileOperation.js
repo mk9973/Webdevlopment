@@ -11,7 +11,7 @@ fs.readFile('data.txt', (err, data) => {
   }
 })
 
-// Write data
+// create file
 //err---->error if error detected error will print
 fs.writeFile('employee.txt', 'New Employee', (err) => {
   if (err) {
