@@ -3,3 +3,10 @@
 -->Add a Product
 -->Get one Product
 -->Rate Product
+-->Add items to Cart
+-->Get items of Cart
+-->Remove items from Cart
+
+2. UserController
+-->SignUp - Email, Name, Password, TypeOfUser(customer, seller)
+-->SignIn - (Email, Password)
