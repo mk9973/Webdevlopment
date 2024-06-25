@@ -28,7 +28,15 @@ export default class ProductController{
     }
 
     rateProduct(req,res){
-
+        const userID=req.query.userID;
+        const productID=req.query.productID;
+        const rating = req.query.rating;
+        const error=ProductModel.rateProduct(userID, productID,rating);
+        if(error){
+            return res.status(400).send(error);
+        }else{
+            return res.status(200).send("Product rating is done");
+        }
     }
 
     getOneProduct(req,res){
@@ -41,7 +49,7 @@ export default class ProductController{
             return res.status(200).send(product);
         }
     }
-    filterProducts(req,res){
+    filterProducts(req,res){   
         const minPrice=req.query.minPrice;
         const maxPrice=req.query.maxPrice;
         const category=req.query.category;

@@ -16,6 +16,7 @@ const jwtAuth =(req,res,next)=>{
             token,
             'FajKSq7ckDgv8alY0rdNTUvuePvSwvBw'
         );
+        req.userID=payload.userID;
         console.log(payload);
     }
     catch(err){
