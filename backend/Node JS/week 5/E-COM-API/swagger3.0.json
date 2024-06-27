@@ -1,21 +1,27 @@
 
 
 {
-    "__comments":"first install --> npm install swagger-ui-express then go to 'swagger documentatio' website to read the basic structure of swagger and add it" ,
+    "__comments":"first install --> npm install swagger-ui-express then go to 'swagger documentation' website to read the basic structure of swagger and add it" ,
    
-    "swagger":"2.0",
+    "openapi":"3.0.0",
     "info":{
         "version":"1.0.0",
         "description":"API for E-Commerce application",
         "title":"E-commerce API"
     },
-    "host":"localhost:9971",
-    "securityDefinitions":{
-        "JWT":{
-            "__comments":"in some application there is a bearer token , so for the bearer token you have to append 'Bearer <token>'",
-            "in":"header",
-            "name":"Authorization",
-            "type":"apiKey"
+    "servers":[
+        {
+            "url":"http://localhost:9971"
+        }
+    ],
+    "components":{
+        "securitySchemes":{
+            "JWT":{
+                "__comments":"in some application there is a bearer token , so for the bearer token you have to append 'Bearer <token>'",
+                "in":"header",
+                "name":"Authorization",
+                "type":"apiKey"
+            }
         }
     },
     "paths":{ "/api/products":{
@@ -39,25 +45,25 @@
                 "tags":["Users"],
                 "summary":"Login",
                 "description":"User Login to get token",
-                "parameters":[
+                "requestBody":{
+                    "content":
                     {
-                        "in":"body",
-                        "name":"body",
-                        "description":"User Credentials",
-                        "schema":{
-                            "type":"object",
-                            "properties":{
-                                "email":{
-                                    "type":"string"
-                                },
-                                "password":{
-                                    "type":"string"
+                            "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "email":{
+                                        "type":"string"
+                                    },
+                                    "password":{
+                                        "type":"string"
+                                    }
                                 }
                             }
                         }
                     }
 
-                ],
+                },
                 "responses":{
                     "200":{
                         "description":"OK"

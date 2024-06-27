@@ -12,7 +12,8 @@ import cartRouter from "./src/features/cartItems/cartItems.routes.js";
 import jwtAuth from "./src/middlewares/jwt.middleware.js";
 //import apiDocs under swagger ui express
 //here only javascript module should imported but here it is json module so we have to explicitly type:'json' 
-import apiDocs from "./swagger.json" assert{type:'json'};
+//import apiDocs from "./swagger2.0.json" assert{type:'json'};
+import apiDocs from "./swagger3.0.json" assert{type:'json'};
 
 const server=express();
 
@@ -31,6 +32,10 @@ server.get('/',(req,res)=>{
     return res.send("Welcome to E-commerce API ");
 });
 
+//Middleware to handle 404 request when no url matched
+server.use((req,res)=>{
+    return res.status(404).send("API not Found. Please check documentation for more information on http://localhost:9971/api-docs");
+})
 
 server.listen(9971,()=>{
     console.log("Server is on port 9971");
