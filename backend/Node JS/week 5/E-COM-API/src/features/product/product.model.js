@@ -43,13 +43,6 @@ export default class ProductModel{
 
     static  filter(minPrice, maxPrice, category){
       const result=products.filter((product)=>{
-        console.log(product.price);
-        console.log(!minPrice || product.price >= minPrice);
-        console.log(!maxPrice || product.price <= maxPrice);
-        console.log(!category || product.category==category);
-        console.log("-------------------")
-
-
         return (
           (!minPrice || product.price >= minPrice) &&
           (!maxPrice || product.price <= maxPrice) &&
@@ -65,13 +58,13 @@ export default class ProductModel{
       //1. Validate user and product
       const user=UserModel.getAll().find(u=> u.userID==userID);
       if(!user){
-        return "User not found";
+        throw new Error("User not found");
       }
 
       //Validate product
       const product=products.find((p)=>p.id==productID);
       if(!product){
-        return "Product not found";
+        throw new Error("Product not found");
       }
 
       //2. Check if there are any rating and if not then add ratings array
