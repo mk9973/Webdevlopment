@@ -29,7 +29,7 @@
 //     next();
 // };
 
-// export default loggerMiddleware;
+//export default loggerMiddleware;
 
 
 //Winston logger instead of Normal logger

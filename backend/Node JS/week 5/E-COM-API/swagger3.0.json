@@ -1,7 +1,7 @@
 
 
 {
-    "__comments":"first install --> npm install swagger-ui-express then go to 'swagger documentation' website to read the basic structure of swagger and add it" ,
+    "__comments":"first install -->  npm install swagger-ui-express then go to 'swagger documentation' website to read the basic structure of swagger and add it" ,
    
     "openapi":"3.0.0",
     "info":{

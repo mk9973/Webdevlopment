@@ -11,7 +11,7 @@ const basicAuthorizer=(req,res,next)=>{
     }
     console.log(authHeader);
 
-    //2. Extract the credentials [Basic qwetyui73vdhuugdw73nb -->code]
+    //2.Extract the credentials [Basic qwetyui73vdhuugdw73nb -->code]
     const base64Credentials=authHeader.replace('Basic','');
     console.log(base64Credentials);
 
