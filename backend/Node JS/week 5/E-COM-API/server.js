@@ -17,6 +17,7 @@ import jwtAuth from "./src/middlewares/jwt.middleware.js";
 import apiDocs from "./swagger3.0.json" assert{type:'json'};
 //import logger middleware
 import loggerMiddleware from "./src/middlewares/logger.middleware.js";
+import { ApplicationError } from "./src/error-handler/applicationError.js";
 const server=express();
 
 //CORS policy configuration
@@ -53,8 +54,23 @@ server.use("/api/cartItems",jwtAuth,loggerMiddleware,cartRouter);
 //first import swagger ui express
 server.use("/api-docs",swagger.serve, swagger.setup(apiDocs));
 
+//Error handler middleware
+//it will handle both server and user-defined error 
+// server.use((err,req,res,next)=>{
+//     console.log(err);
+//     res.status(503).send("Something went wrong please try later");
+// })
 
+//same as above only one thing is added
+server.use((err,req,res,next)=>{
+        console.log(err);
+        if(err instanceof ApplicationError){
+            res.status(err.code).send(err.message);
+        }
+        res.status(500).send("Something went wrong please try later");
+     })
 
+//Default request handler
 server.get('/',(req,res)=>{
     return res.send("Welcome to E-commerce API ");
 });
