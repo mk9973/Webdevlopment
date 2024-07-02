@@ -18,6 +18,7 @@ import apiDocs from "./swagger3.0.json" assert{type:'json'};
 //import logger middleware
 import loggerMiddleware from "./src/middlewares/logger.middleware.js";
 import { ApplicationError } from "./src/error-handler/applicationError.js";
+import {connectToMongoDB} from "./src/config/mongodb.js";
 const server=express();
 
 //CORS policy configuration
@@ -82,4 +83,5 @@ server.use((req,res)=>{
 
 server.listen(9971,()=>{
     console.log("Server is on port 9971");
+    connectToMongoDB();
 });

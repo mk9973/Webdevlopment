@@ -6,7 +6,7 @@ export default class ProductController{
 
         const products=ProductModel.getAll();
         res.status(200).send(products);
-    }
+    }0
 
     addProduct(req,res){
         //"req.body" gives undefined when client send json file req to server
