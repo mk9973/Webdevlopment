@@ -62,3 +62,6 @@
 {"level":"info","message":"/api/users/signup - undefined","service":"request-logging"}
 {"level":"info","message":"/api/users/signup - undefined","service":"request-logging"}
 {"level":"info","message":"/api/users/signup - undefined","service":"request-logging"}
+{"level":"info","message":"/api/users/signup - undefined","service":"request-logging"}
+{"level":"info","message":"/api/users/signup - undefined","service":"request-logging"}
+{"level":"info","message":"/api/users/signup - undefined","service":"request-logging"}

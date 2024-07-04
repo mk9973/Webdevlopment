@@ -31,6 +31,7 @@
 import UserModel from "./user.model.js";
 import jwt from "jsonwebtoken";
 import UserRepository from "./user.repository.js";
+import bcrypt from "bcrypt";  //first install --> 'npm i bcrypt'
 
 export default class UserController{
 
@@ -39,33 +40,43 @@ export default class UserController{
     }
 
     async signUp(req,res){
+    
         const {name, email, password, type}=req.body;
 
-        const user=new UserModel(name, email, password, type);
+       //here 12 -> is salt which made unique password, jitna bara salt utna time lagega hash karne me
+       //salt append to hash
+       //Create a hash from password
+        const hashedPassword =await  bcrypt.hash(password,12);
+
+        const user=new UserModel(name, email, hashedPassword, type);
         await this.userRepository.signUp(user);
         res.status(201).send(user);
     }
 
    async signIn(req,res,next){
        try{ 
-            const result =await this.userRepository.signIn(
-            req.body.email,
-            req.body.password
-        );
-
-        if(!result){
+        // 1. Find user by email
+        const user = await this.userRepository.findByEmail(req.body.email);
+        if(!user){
             return res.status(400).send("Incorrect Credentials");
-        }else{
-            //1. Create Our token
+        } 
+        else{
+            //2 . Compare password with hashed password
+            const result=  await bcrypt.compare(req.body.password, user.password);
+            if(result){
+            //3. Create Our token
             //you should't store sensitive data in payload like password but you can stor id,email,etc.
-            const token=jwt.sign({userID: result.id, email: result.email},'FajKSq7ckDgv8alY0rdNTUvuePvSwvBw',  // it is online key generator from "https://randomkeygen.com/"
+            const token=jwt.sign({userID: result.id, email: result.email},process.JWT_SECRET,  // it is online key generator from "https://randomkeygen.com/"
                 {
                     expiresIn: '1h',   //token will expire in one hour
                 }
             );    
 
-            //2. Send token
+            //4. Send token
             return res.status(200).send(token);
+            }else{
+                return res.status(400).send("Incorrect Credentials");
+            }
         }
     }catch(err){
            console.log(err);

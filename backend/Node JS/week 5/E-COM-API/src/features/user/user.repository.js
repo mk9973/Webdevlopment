@@ -34,6 +34,22 @@ class UserRepository{
             throw new ApplicationError("Something went wrong with Database",500);
         }
     }
+
+    async findByEmail(email){
+        //here we are using mongo database
+        //in asynchronous operation we should always use 'try'- 'catch' block
+        try{
+        //1. Get the database
+        const db= getDB();
+        //2. Get the coleection
+        const collection=db.collection("users");
+        //3. Findthe document.
+       return await collection.findOne({email});
+
+        }catch(err){
+            throw new ApplicationError("Something went wrong with Database",500);
+        }
+    }
 }
 
 export default UserRepository;

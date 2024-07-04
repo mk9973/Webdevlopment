@@ -1,3 +1,8 @@
+//sbse upar 'dotevn' config karna h warna undefined de dega 'url' aur 'jwt' me 
+import dotenv from "dotenv";
+//load all the environment variables in application
+dotenv.config();
+
 //first install npm
 //second install express then make server file
 
