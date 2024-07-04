@@ -59,3 +59,6 @@
 {"level":"info","message":"/api/products/rate?productID=1&userID=1&rating=3 - undefined","service":"request-logging"}
 {"level":"info","message":"/api/users/signup - undefined","service":"request-logging"}
 {"level":"info","message":"/api/users/signup - undefined","service":"request-logging"}
+{"level":"info","message":"/api/users/signup - undefined","service":"request-logging"}
+{"level":"info","message":"/api/users/signup - undefined","service":"request-logging"}
+{"level":"info","message":"/api/users/signup - undefined","service":"request-logging"}
