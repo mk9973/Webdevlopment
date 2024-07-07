@@ -1,38 +1,48 @@
 import ProductModel from "./product.model.js";
+import ProductRepository from "./product.repository.js";
 
 export default class ProductController{
 
-    getAllProducts(req,res){
+    constructor(){
+        this.productRepository= new ProductRepository();
+    }
 
-        const products=ProductModel.getAll();
+    async getAllProducts(req,res){
+        try{
+        const products=await this.productRepository.getAll();
         res.status(200).send(products);
-    }0
+        }catch(err){
+            console.log(err);
+           return res.status(200).send("Something went wrong");
+        }
+    }
 
-    addProduct(req,res){
+    async addProduct(req,res){
         //"req.body" gives undefined when client send json file req to server
         //because for passing json file client to server we have install "npm i body-parser" 
         // console.log(req.body);
         // console.log("this is a request");
         // res.status(200).send("Post request recieved");
-
+        try{
+            console.log(req.body);
         const {name,price,sizes}=req.body;
-        const newProduct={
-            name,
-            price:parseFloat(price),
-            sizes:sizes.split(','),
-            imageUrl:req.file.filname,
-        };
+        const newProduct=new ProductModel(name,null,parseFloat(price),req.file.filename,null,sizes.split(','));
 
-        const createdRecord=ProductModel.add(newProduct);
-        res.status(201).send(createdRecord);
+        const createdProduct=await this.productRepository.add(newProduct);
+        res.status(201).send(createdProduct);
+        }catch(err){
+            console.log(err);
+           return res.status(200).send("Something went wrong");
+        }
     }
 
-    rateProduct(req,res){
-        const userID=req.query.userID;
-        const productID=req.query.productID;
-        const rating = req.query.rating;
+    async rateProduct(req,res){
         try{
-            ProductModel.rateProduct(userID, productID,rating);
+        const userID=req.userID;
+        const productID=req.body.productID;
+        const rating = req.body.rating;
+        
+           await this.productRepository.rate(userID, productID,rating);
         }catch(err){
             return res.status(400).send(err.message);
         }
@@ -40,27 +50,36 @@ export default class ProductController{
     }
 
 
-    getOneProduct(req,res){
-        const id =req.params.id;
-        const product=ProductModel.get(id);
-        if(!product){
-            res.status(404).send('Product not Found');
-        }
-        else{
-            return res.status(200).send(product);
-        }
+    async getOneProduct(req,res){
+
+        try{
+            const id =req.params.id;
+            const product=await this.productRepository.get(id);
+            if(!product){
+                res.status(404).send('Product not Found');
+            }else{
+                return res.status(200).send(product);
+            }
+            }catch(err){
+                console.log(err);
+               return res.status(200).send("Something went wrong");
+            }   
     }
-    filterProducts(req,res){   
+   async filterProducts(req,res){   
+    try{
         const minPrice=req.query.minPrice;
         const maxPrice=req.query.maxPrice;
         const category=req.query.category;
-        const result=ProductModel.filter(
+        const result=await this.productRepository.filter(
             minPrice,
             maxPrice,
             category
         );
         res.status(200).send(result);
-
+    }catch(err){
+        console.log(err);
+       return res.status(200).send("Something went wrong");
+    } 
     }
 
 

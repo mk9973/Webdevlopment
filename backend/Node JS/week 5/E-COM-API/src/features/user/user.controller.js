@@ -66,7 +66,7 @@ export default class UserController{
             if(result){
             //3. Create Our token
             //you should't store sensitive data in payload like password but you can stor id,email,etc.
-            const token=jwt.sign({userID: result.id, email: result.email},process.JWT_SECRET,  // it is online key generator from "https://randomkeygen.com/"
+            const token=jwt.sign({userID: user._id, email: user.email},process.env.JWT_SECRET,  // it is online key generator from "https://randomkeygen.com/"
                 {
                     expiresIn: '1h',   //token will expire in one hour
                 }

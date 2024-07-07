@@ -1,5 +1,5 @@
 //sbse upar 'dotevn' config karna h warna undefined de dega 'url' aur 'jwt' me 
-import dotenv from "dotenv";
+import dotenv from "dotenv";   //--> first install -->'npm i dotenv'
 //load all the environment variables in application
 dotenv.config();
 
