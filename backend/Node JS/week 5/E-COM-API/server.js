@@ -24,6 +24,10 @@ import apiDocs from "./swagger3.0.json" assert{type:'json'};
 import loggerMiddleware from "./src/middlewares/logger.middleware.js";
 import { ApplicationError } from "./src/error-handler/applicationError.js";
 import {connectToMongoDB} from "./src/config/mongodb.js";
+import orderRouter from "./src/features/order/order.routes.js";
+import { connectUsingMongoose } from "./src/config/mongooseConfig.js";
+import mongoose from "mongoose";
+import likeRouter from "./src/features/like/like.routes.js";
 const server=express();
 
 //CORS policy configuration
@@ -52,10 +56,12 @@ server.use(express.json());
 
 //for all requests related tp product, redirect to product routes.
 //localhost:9973/api/products
-
+server.use("/api/orders",jwtAuth,orderRouter);
 server.use("/api/products",jwtAuth,productRouter);
 server.use("/api/users",userRouter);
 server.use("/api/cartItems",jwtAuth,loggerMiddleware,cartRouter);
+server.use("/api/likes",jwtAuth,likeRouter);
+
 
 //first import swagger ui express
 server.use("/api-docs",swagger.serve, swagger.setup(apiDocs));
@@ -70,8 +76,11 @@ server.use("/api-docs",swagger.serve, swagger.setup(apiDocs));
 //same as above only one thing is added
 server.use((err,req,res,next)=>{
         console.log(err);
+        if(err instanceof mongoose.Error.ValidationError){
+            return res.status(400).send(err.message);
+        }
         if(err instanceof ApplicationError){
-            res.status(err.code).send(err.message);
+            return res.status(err.code).send(err.message);
         }
         res.status(500).send("Something went wrong please try later");
      })
@@ -88,5 +97,6 @@ server.use((req,res)=>{
 
 server.listen(9971,()=>{
     console.log("Server is on port 9971");
-    connectToMongoDB();
+    //connectToMongoDB();
+    connectUsingMongoose();
 });

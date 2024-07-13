@@ -25,8 +25,8 @@ export default class ProductController{
         // res.status(200).send("Post request recieved");
         try{
             console.log(req.body);
-        const {name,price,sizes}=req.body;
-        const newProduct=new ProductModel(name,null,parseFloat(price),req.file.filename,null,sizes.split(','));
+            const {name,price,sizes,categories,desc}=req.body;
+            const newProduct=new ProductModel(name,desc,parseFloat(price),req?.file?.filename,categories,sizes?.split(','));
 
         const createdProduct=await this.productRepository.add(newProduct);
         res.status(201).send(createdProduct);
@@ -36,7 +36,7 @@ export default class ProductController{
         }
     }
 
-    async rateProduct(req,res){
+    async rateProduct(req,res,next){
         try{
         const userID=req.userID;
         const productID=req.body.productID;
@@ -44,7 +44,9 @@ export default class ProductController{
         
            await this.productRepository.rate(userID, productID,rating);
         }catch(err){
-            return res.status(400).send(err.message);
+            console.log(err);
+            console.log("Passing error to middleware");
+            next(err);
         }
             return res.status(200).send("Product rating is done");
     }
@@ -68,18 +70,29 @@ export default class ProductController{
    async filterProducts(req,res){   
     try{
         const minPrice=req.query.minPrice;
-        const maxPrice=req.query.maxPrice;
-        const category=req.query.category;
+        //const maxPrice=req.query.maxPrice;
+        const categories=req.query.categories;
         const result=await this.productRepository.filter(
             minPrice,
-            maxPrice,
-            category
+           //maxPrice,
+           categories
         );
         res.status(200).send(result);
     }catch(err){
         console.log(err);
        return res.status(200).send("Something went wrong");
     } 
+    }
+
+    async averagePrice(req,res,next){
+        try{
+            const result=await this.productRepository.averageProductPricePerCategory();
+            res.status(200).send(result);
+        }catch(err){
+            console.log(err);
+            return res.status(200).send("Something went wrong");
+        }
+
     }
 
 

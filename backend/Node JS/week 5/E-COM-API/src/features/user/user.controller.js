@@ -39,18 +39,39 @@ export default class UserController{
         this.userRepository =new UserRepository();
     }
 
-    async signUp(req,res){
-    
+    async resetPassword(req,res,next){
+        const {newPassword}=req.body;
+        const hashedPassword =await  bcrypt.hash(newPassword,12);
+        const userID=req.userID;
+
+        try{
+            await this.userRepository.resetPassword(userID,hashedPassword);
+            res.status(200).send("Password is Updated");
+        }catch(err){
+            console.log(err);
+            console.log("Passing error to middleware");
+            next(err);
+        }
+    }
+
+    async signUp(req,res,next){
+    try{
         const {name, email, password, type}=req.body;
 
        //here 12 -> is salt which made unique password, jitna bara salt utna time lagega hash karne me
        //salt append to hash
        //Create a hash from password
-        const hashedPassword =await  bcrypt.hash(password,12);
+       
+       //for check the validation of password you to comment the const hashedPassword 
+       //and UserModel ke andar hashedPassword ke jagah password likh do 
+       //const hashedPassword =await  bcrypt.hash(password,12);
 
-        const user=new UserModel(name, email, hashedPassword, type);
+        const user=new UserModel(name, email, password, type);
         await this.userRepository.signUp(user);
         res.status(201).send(user);
+        }catch(err){
+            next(err);
+        }
     }
 
    async signIn(req,res,next){
